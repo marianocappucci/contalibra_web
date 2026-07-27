@@ -4,6 +4,8 @@ services:
     image: contalibra-web:latest
     container_name: contalibra-web
     restart: unless-stopped
+    environment:
+      - AUTH_UPSTREAM=contalibra-web-auth
     ports:
       - "8069:80"
     networks:
