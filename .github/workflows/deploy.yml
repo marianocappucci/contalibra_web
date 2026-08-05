@@ -13,5 +13,20 @@ jobs:
   deploy:
     uses: marianocappucci/libra-web-kit/.github/workflows/deploy-vps.yml@main
     with:
-      remote_path: /root/contalibra/website/
+      # `/root/contalibra_web/`, no `/root/contalibra/website/` (2026-08-05).
+      #
+      # Esta landing era la unica de las cinco que desplegaba DENTRO del arbol
+      # del repo de su app; las otras cuatro ya usan `/root/<producto>_web/`,
+      # que es ademas el ejemplo del propio workflow reusable.
+      #
+      # Que dos repos fueran duenos del mismo path dejaba el checkout de
+      # `contalibra` sucio de forma permanente, y —peor— hacia que cualquier
+      # `git reset --hard` o `git checkout -- .` en ese checkout sobrescribiera
+      # esta landing con la version del 2026-07-01. Ver wiki/entities/contalibra.md.
+      #
+      # Ojo al mover un `remote_path`: el rsync excluye `.env`, asi que el
+      # `DOCS_AUTH_SECRET` del login de /docs/ vive SOLO en el VPS. El
+      # directorio se movio con su `.env` antes de tocar esta linea; hacerlo al
+      # reves habria creado el destino sin secreto y roto el gate.
+      remote_path: /root/contalibra_web/
     secrets: inherit
