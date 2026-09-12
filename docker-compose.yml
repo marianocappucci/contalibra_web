@@ -7,7 +7,7 @@ services:
     environment:
       - AUTH_UPSTREAM=contalibra-web-auth
     ports:
-      - "8069:80"
+      - "127.0.0.1:8069:80"
     networks:
       - stack-net
     depends_on:
